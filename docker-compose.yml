@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-web
+    ports:
+      - "${APACHE_PORT}:80"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: ${MYSQL_DATABASE}
+
+  db:
+    build:
+      context: ./database
+      dockerfile: Dockerfile-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - db-data:/var/lib/mysql
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  db-data:

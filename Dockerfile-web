@@ -1,0 +1,17 @@
+# Use the official PHP-Apache image
+FROM php:8.0-apache
+
+# Install the PDO MySQL and mysqli extensions for PHP
+RUN docker-php-ext-install pdo_mysql mysqli
+
+# Copy our PHP files into the image
+COPY db.php /var/www/html/
+COPY delete_task.php /var/www/html/
+COPY edit.php /var/www/html/
+COPY index.php /var/www/html/
+COPY save_task.php /var/www/html/
+COPY includes/footer.php /var/www/html/includes/
+COPY includes/header.php /var/www/html/includes/
+
+# Expose port 80 for the web server
+EXPOSE 80
